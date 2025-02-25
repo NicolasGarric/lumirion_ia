@@ -1,0 +1,28 @@
+<h1>🎙 Lumirion IA - Enregistreur Vocal</h1>
+
+<div data-controller="audio_recorder">
+  <button data-action="click->audio_recorder#startRecording" data-audio_recorder-target="recordButton">
+    🎤 Démarrer l'enregistrement
+  </button>
+  <button data-action="click->audio_recorder#stopRecording" data-audio_recorder-target="stopButton" disabled>
+    ⏹️ Arrêter l'enregistrement
+  </button>
+
+  <audio controls data-audio_recorder-target="audioPreview"></audio>
+
+  <%= form_with model: @audio_message, url: audio_messages_path, local: true do |f| %>
+    <%= f.file_field :audio, accept: "audio/*", data: { audio_recorder_target: "audioInput" } %>
+    <%= f.submit "Envoyer" %>
+  <% end %>
+</div>
+
+<h2>📜 Transcriptions</h2>
+<ul>
+  <% @audio_messages.each do |message| %>
+    <li>
+      <audio controls src="<%= url_for(message.audio) %>"></audio>
+      <p><strong>Statut :</strong> <%= message.status %></p>
+      <p><strong>Transcription :</strong> <%= message.transcription || "En attente..." %></p>
+    </li>
+  <% end %>
+</ul>

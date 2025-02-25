@@ -2,7 +2,8 @@ class AudioMessage < ApplicationRecord
   belongs_to :user
   has_one_attached :audio
 
-  validates :audio, attached: true, content_type: ['audio/mpeg', 'audio/wav']
+  validates :audio, content_type: ['audio/mpeg', 'audio/wav']
+
   after_create :transcribe_audio
 
   private
