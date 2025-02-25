@@ -11,8 +11,8 @@
   <audio controls data-audio_recorder-target="audioPreview"></audio>
 
   <%= form_with model: @audio_message, url: audio_messages_path, local: true do |f| %>
-    <%= f.file_field :audio, accept: "audio/*", data: { audio_recorder_target: "audioInput" } %>
-    <%= f.submit "Envoyer" %>
+    <%= f.file_field :audio, accept: "audio/wav, audio/mp3", data: { audio_recorder_target: "audioInput" } %>
+    <%= f.submit "Envoyer", data: { audio_recorder_target: "uploadButton" }, disabled: true %>
   <% end %>
 </div>
 
@@ -24,5 +24,5 @@
       <p><strong>Statut :</strong> <%= message.status %></p>
       <p><strong>Transcription :</strong> <%= message.transcription || "En attente..." %></p>
     </li>
-  <% end %>
+  <% end %> <!-- 🔹 Correction : Ajout de la fermeture de la boucle each -->
 </ul>

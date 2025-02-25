@@ -1,19 +1,20 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["recordButton", "stopButton", "audioInput", "audioPreview"];
+  static targets = ["recordButton", "stopButton", "audioInput", "audioPreview", "uploadButton"];
 
   connect() {
     this.mediaRecorder = null;
     this.chunks = [];
+    this.recordButtonTarget.disabled = false;
+    this.stopButtonTarget.disabled = true;
   }
 
   async startRecording() {
-    this.chunks = [];
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       this.mediaRecorder = new MediaRecorder(stream);
+      this.chunks = [];
 
       this.mediaRecorder.ondataavailable = event => {
         if (event.data.size > 0) this.chunks.push(event.data);
@@ -49,5 +50,7 @@ export default class extends Controller {
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
     this.audioInputTarget.files = dataTransfer.files;
+
+    this.uploadButtonTarget.disabled = false;
   }
 }
